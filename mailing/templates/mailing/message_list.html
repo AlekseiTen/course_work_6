@@ -1,0 +1,32 @@
+{% extends 'mailing/base.html' %}
+{% block content %}
+    <h1>Список сообщений</h1>
+    <div class="album py-5 bg-body-tertiary">
+
+        <div class="container">
+            <div class="row">
+                {% for message in messages %}
+                    <div class="col-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ message.subject }}</h5>
+                                <h5 class="card-title">{{ message.body }}</h5>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" href="#" role="button">Посмотреть</a>
+                                    <a class="btn btn-warning" href="#" role="button">Редактировать</a>
+                                    <a class="btn btn-danger" href="#" role="button">Удалить</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{% url 'mailing:message_create' %}" class="btn btn-success">Создать сообщение</a>
+            <a href="{% url 'mailing:index' %}" class="btn btn-primary">Назад</a>
+        </div>
+    </div>
+{% endblock %}

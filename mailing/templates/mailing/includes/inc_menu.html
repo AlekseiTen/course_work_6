@@ -8,7 +8,7 @@
             }</style>
 
             <li><a href="#" class="nav-link px-2 custom-link">Рассылки</a></li>
-            <li><a href="#" class="nav-link px-2 custom-link">Сообщения</a></li>
+            <li><a href="{% url 'mailing:message_list' %}" class="nav-link px-2 custom-link">Сообщения</a></li>
             <li><a href="{% url 'mailing:client_list' %}" class="nav-link px-2 custom-link ">Клиенты</a>
             </li>
         </ul>
