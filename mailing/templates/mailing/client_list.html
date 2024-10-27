@@ -17,6 +17,8 @@
                     <td>{{ client.full_name }}</td>
                     <td>{{ client.email }}</td>
                     <td>
+                        <a href="{% url 'mailing:client_detail' client.pk %}"
+                           class="btn btn-info btn-sm">Просмотреть</a>
                         <a href="{% url 'mailing:client_update' client.pk %}"
                            class="btn btn-warning btn-sm">Изменить</a>
                         <a href="{% url 'mailing:client_delete' client.pk %}" class="btn btn-danger btn-sm">Удалить</a>

@@ -1,10 +1,23 @@
 <!-- templates/client_detail.html -->
 {% extends 'mailing/base.html' %}
 {% block content %}
-  <h1>{{ object.full_name }}</h1>
-  <p>Почта: {{ object.email }}</p>
-  <p>Комментарий: {{ object.comment }}</p>
-  <a href="{% url 'mailing:client_update' object.pk %}">Редактировать</a>
-  <a href="{% url 'mailing:client_delete' object.pk %}">Удалить</a>
-  <a href="{% url 'mailing:client_list' %}">Назад</a>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text"><strong>Клиент: {{ object.full_name }} </strong></p>
+                        <p class="card-text">Комментарий: {{ object.comment }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a class="btn btn-primary" href="{% url 'mailing:client_list' %}" 
+                                   role="button">Назад</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 {% endblock %}
