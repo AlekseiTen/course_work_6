@@ -1,6 +1,6 @@
 from django.forms import BooleanField, ModelForm
 
-from mailing.models import Client
+from mailing.models import Client, Message, Mailing
 
 
 class StyleFormMixin:
@@ -17,3 +17,15 @@ class ClientForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Client
         fields = ['email', 'full_name']
+
+
+class MessageForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Message
+        fields = ['subject', 'body']
+
+
+class MailingForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Mailing
+        fields = "__all__"
