@@ -26,7 +26,7 @@
 
         {#.scroll-to-top:hover {#}
         {#    background-color: #0056b3; /* Darker shade on hover */#}
-        
+
     </style>
     <style>
         /* CSS to create a sticky footer */
@@ -60,41 +60,7 @@
     <div class="content">
         <!-- Верхний колонтитул с меню-->
         <header class="p-3 mb-3 bg-dark border-bottom">
-            <div class="container">
-                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-                        <img src="/static/images/Hilshat76-Python-001.jpg" alt="mdo" width="40" height="40"
-                             class="rounded-circle">
-                    </a>
-
-                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <style>.custom-link {
-                            color: white
-                        }</style>
-                        <li><a href="#" class="nav-link px-2 custom-link">Рассылки</a></li>
-                        <li><a href="#" class="nav-link px-2 custom-link">Сообщения</a></li>
-                        <li><a href="#" class="nav-link px-2 custom-link ">Клиенты</a></li>
-                    </ul>
-
-
-                    <div class="dropdown text-end">
-                        <a href="#" class="d-block custom-link text-decoration-none dropdown-toggle" id="dropdownUser1"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="/media/user/user.jpg" alt="mdo" width="40" height="40" class="rounded-circle">
-                        </a>
-                        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                            <li><a class="dropdown-item" href="#">Создать рассылки</a></li>
-                            <li><a class="dropdown-item" href="#">Создать сообщение</a></li>
-                            <li><a class="dropdown-item" href="#">Добавить клиента</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Войти</a></li>
-                            <li><a class="dropdown-item" href="#">Выйти</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            {% include 'mailing/includes/inc_menu.html' %}
         </header>
 
         <!-- Заголовок -->
