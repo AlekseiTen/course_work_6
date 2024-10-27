@@ -1,0 +1,30 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+    <h1>Список рассылок</h1>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tbody>
+            {% for mailing in mailings %}
+                <tr>
+                    <td>{{ mailing.description }}</td>
+                    <td>{{ mailing.message }}</td>
+                    <td>
+                        <a href="{% url 'mailing:mailing_detail' mailing.pk %}"
+                           class="btn btn-info btn-sm">Просмотреть</a>
+                        <a href="{% url 'mailing:mailing_update' mailing.pk %}"
+                           class="btn btn-warning btn-sm">Изменить</a>
+                        <a href="{% url 'mailing:mailing_delete' mailing.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <a href="{% url 'mailing:mailing_create' %}" class="btn btn-success">Создать рассылку</a>
+            <a href="{% url 'mailing:index' %}" class="btn btn-primary">Назад</a>
+        </div>
+    </div>
+{% endblock %}
