@@ -9,7 +9,7 @@
                         <div class="card-body">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            {% if client %}
+                            {% if message %}
                                 <button type="submit" class="btn btn-success">Редактировать</button>
                             {% else %}
                                 <button type="submit" class="btn btn-success">Создать</button>
