@@ -8,7 +8,11 @@
                     <div class="card-body">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit" class="btn btn-success">Зарегистрироваться</button>
+                        {% if client %}
+                            <button type="submit" class="btn btn-success">Редактировать</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-success">Создать</button>
+                        {% endif %}
                         <a class="btn btn-primary" href="{% url 'mailing:client_list' %}" role="button">Назад</a>
                     </div>
                     <div class="card-footer"></div>

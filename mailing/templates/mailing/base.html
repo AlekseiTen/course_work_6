@@ -76,30 +76,9 @@
         {% block content %}
         {% endblock %}
 
-        <!-- Кнопка прокрутки до верха -->
-        <div>
-            <a class="scroll-to-top" id="scrollToTopBtn"><img src="/static/images/up_button.png" alt="mdo" width="40"
-                                                              height="40"
-                                                              class="rounded-circle"></a>
-
-            <script>
-                const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-                window.onscroll = function () {
-                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                        scrollToTopBtn.style.display = "block";
-                    } else {
-                        scrollToTopBtn.style.display = "none";
-                    }
-                };
-                scrollToTopBtn.onclick = function () {
-                    window.scrollTo({top: 0, behavior: 'smooth'}); // Smooth scroll to top
-                };
-            </script>
-        </div>
-
         <script src="../../../static/js/bootstrap.bundle.min.js"></script>
-
     </div>
+
     <!-- Нижний колонтитул -->
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
         <div class="container">
