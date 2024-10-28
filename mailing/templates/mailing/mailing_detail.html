@@ -7,8 +7,10 @@
             <div class="col-md-6">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <p class="card-text"><strong>Рассылка: {{ object.description }} </strong></p>
-                        <p class="card-text">Тема рассылки: {{ object.message }}</p>
+                        <p class="card-text"><strong>Описание рассылки: {{ object.description }} </strong></p>
+                        <p class="card-text">Сообщение рассылки: {{ object.message }}</p>
+                        <p class="card-text">Статус рассылки: {{ object.status }}</p>
+                        <p class="card-text">Дата начала рассылки: {{ object.start_time }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a class="btn btn-primary" href="{% url 'mailing:mailing_list' %}" 

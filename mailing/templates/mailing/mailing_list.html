@@ -4,6 +4,13 @@
     <h1>Список рассылок</h1>
     <div class="table-responsive">
         <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Описание рассылки</th>
+                <th>Сообщение рассылки</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
             <tbody>
             {% for mailing in mailings %}
                 <tr>
@@ -14,7 +21,8 @@
                            class="btn btn-info btn-sm">Просмотреть</a>
                         <a href="{% url 'mailing:mailing_update' mailing.pk %}"
                            class="btn btn-warning btn-sm">Изменить</a>
-                        <a href="{% url 'mailing:mailing_delete' mailing.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+                        <a href="{% url 'mailing:mailing_delete' mailing.pk %}"
+                           class="btn btn-danger btn-sm">Удалить</a>
                     </td>
                 </tr>
             {% endfor %}
