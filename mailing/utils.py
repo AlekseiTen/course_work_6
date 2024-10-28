@@ -21,8 +21,11 @@ def send_mailing():
     mailings = get_mailings_to_send(current_datetime)
 
     for mailing in mailings:
-
         if can_send_mailing(mailing):
+            # Меняем статус на 'started' перед отправкой
+            mailing.status = 'started'
+            # Сохраняем изменения в базе данных
+            mailing.save()
             send_mailing_to_clients(mailing)
         print(f"Текущая рассылка: {mailing}")
 
@@ -56,7 +59,9 @@ def send_mailing_to_clients(mailing):
             fail_silently=False,
         )
         log_attempt(mailing, 'success')
-        mailing.status = 'started' if mailing.status == 'created' else mailing.status
+        # Меняем статус на 'completed' после успешной отправки
+        mailing.status = 'completed'
+        mailing.save()  # Сохраняем изменения в базе данных
     except Exception as e:
         log_attempt(mailing, 'failed', str(e))
 
