@@ -44,7 +44,7 @@ class Mailing(models.Model):
     description = models.CharField(
         verbose_name="описание", max_length=255, **NULLABLE
     )
-    start_time = models.DateTimeField(verbose_name="дата начала рассылки")
+    start_time = models.DateTimeField(auto_now=True, verbose_name="дата начала рассылки")
     periodicity = models.CharField(
         verbose_name="периодичность", max_length=10, choices=PERIODICITY_CHOICES
     )

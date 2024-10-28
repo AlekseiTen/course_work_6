@@ -28,4 +28,4 @@ class MessageForm(StyleFormMixin, ModelForm):
 class MailingForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Mailing
-        fields = ['description', 'start_time', 'periodicity', 'status', 'message', 'clients']
+        fields = ['description', 'periodicity', 'status', 'message', 'clients']
