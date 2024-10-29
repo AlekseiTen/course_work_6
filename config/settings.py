@@ -28,6 +28,7 @@ INSTALLED_APPS = [
 
     "django_apscheduler",
     "mailing",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -119,6 +120,8 @@ APSCHEDULER_RUN_NOW_TIMEOUT = 25
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+AUTH_USER_MODEL = "users.User"
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.mail.ru'
