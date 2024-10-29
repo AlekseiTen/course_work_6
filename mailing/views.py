@@ -28,12 +28,6 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     form_class = ClientForm
     success_url = reverse_lazy("mailing:client_list")
 
-
-class ClientUpdateView(UpdateView):
-    model = Client
-    form_class = ClientForm
-    success_url = reverse_lazy("mailing:client_list")
-
     def form_valid(self, form):
         # фун-ция по созданию продукта только зарег. пользователям
         client = form.save()
@@ -41,6 +35,12 @@ class ClientUpdateView(UpdateView):
         client.owner = user
         client.save()
         return super().form_valid(form)
+
+
+class ClientUpdateView(UpdateView):
+    model = Client
+    form_class = ClientForm
+    success_url = reverse_lazy("mailing:client_list")
 
 
 class ClientDeleteView(DeleteView):
