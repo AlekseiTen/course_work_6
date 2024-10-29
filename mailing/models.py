@@ -1,12 +1,17 @@
 from django.db import models
 
-NULLABLE = {'blank': True, 'null': False}
+from users.models import User
+
+NULLABLE = {"blank": True, "null": True}
 
 
 class Client(models.Model):
     full_name = models.CharField(verbose_name="Ф.И.О клиента", max_length=255)
     email = models.EmailField(verbose_name="e-mail адрес", unique=True)
     comment = models.TextField(verbose_name='Комментарий', **NULLABLE)
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="clients", **NULLABLE
+    )
 
     def __str__(self):
         return self.full_name
@@ -19,6 +24,9 @@ class Client(models.Model):
 class Message(models.Model):
     subject = models.CharField(max_length=100, verbose_name="Тема сообщения")
     body = models.TextField(verbose_name="Сообщение")
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="messages", **NULLABLE
+    )
 
     def __str__(self):
         return self.subject
@@ -57,6 +65,9 @@ class Mailing(models.Model):
     clients = models.ManyToManyField(Client, verbose_name="клиенты")
     actual_end_time = models.DateTimeField(
         verbose_name="дата завершения рассылки", blank=True, null=True
+    )
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="mailings", **NULLABLE
     )
 
     def __str__(self):
