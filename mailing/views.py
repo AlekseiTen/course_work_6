@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -22,7 +23,7 @@ class ClientDetailView(DetailView):
     template_name = "mailing/client_detail.html"
 
 
-class ClientCreateView(CreateView):
+class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy("mailing:client_list")
@@ -32,6 +33,14 @@ class ClientUpdateView(UpdateView):
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy("mailing:client_list")
+
+    def form_valid(self, form):
+        # фун-ция по созданию продукта только зарег. пользователям
+        client = form.save()
+        user = self.request.user
+        client.owner = user
+        client.save()
+        return super().form_valid(form)
 
 
 class ClientDeleteView(DeleteView):

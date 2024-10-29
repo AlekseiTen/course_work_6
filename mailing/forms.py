@@ -16,7 +16,7 @@ class StyleFormMixin:
 class ClientForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Client
-        fields = ['email', 'full_name']
+        exclude = ("owner",)
 
 
 class MessageForm(StyleFormMixin, ModelForm):
