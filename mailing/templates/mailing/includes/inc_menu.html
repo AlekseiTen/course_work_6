@@ -2,7 +2,9 @@
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <style>.custom-link { color: white }</style>
+            <style>.custom-link {
+                color: white
+            }</style>
 
             <li><a href="{% url 'mailing:mailing_list' %}" class="nav-link px-2 custom-link">Рассылки</a></li>
             <li><a href="{% url 'mailing:message_list' %}" class="nav-link px-2 custom-link">Сообщения</a></li>
@@ -20,8 +22,11 @@
                     <li><a class="dropdown-item" href="{% url 'users:register' %}">Зарегистрироваться</a></li>
                 {% endif %}
                 <li><a class="dropdown-item" href="#">Блог</a></li>
-                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
                 {% if user.is_authenticated %}
+                    <li><span class="dropdown-item">Пользователь: {{ user.email }}</span></li>
                     <li><a class="dropdown-item" href="{% url 'users:logout' %}">Выйти</a></li>
                 {% else %}
                     <li><a class="dropdown-item" href="{% url 'users:login' %}">Войти</a></li>
