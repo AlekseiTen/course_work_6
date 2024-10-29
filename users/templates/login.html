@@ -10,7 +10,7 @@
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button type="submit" class="btn btn-success">Войти</button>
-                        <a class="btn btn-primary" href="{% url 'catalog:products_list' %}" role="button">Назад</a>
+                        <a class="btn btn-primary" href="{% url 'mailing:index' %}" role="button">Назад</a>
                         <a class="btn btn-warning" href="{% url 'users:password_reset' %}" role="button">Восстановить пароль</a>
                     </div>
                     <div class="card-footer"></div>
