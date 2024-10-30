@@ -16,11 +16,15 @@
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <h5 class="card-title">{{ blog.title }}</h5>
-                                <div class="btn-group">
-                                    <a class="btn btn-primary" href="{% url 'blog:view' blog.pk %}" role="button">Посмотреть</a>
-                                    <a class="btn btn-warning" href="{% url 'blog:edit' blog.pk %}" role="button">Редактировать</a>
-                                    <a class="btn btn-danger" href="{% url 'blog:delete' blog.pk %}" role="button">Удалить</a>
-                                </div>
+                                <td>
+                                    <a href="{% url 'blog:view' blog.pk %}"
+                                       class="btn btn-info btn-sm">Просмотреть</a>
+                                    <a href="{% url 'blog:edit' blog.pk %}"
+                                       class=" btn btn-warning btn-sm">Редактировать</a>
+                                    <a href="{% url 'blog:delete' blog.pk %}"
+                                       class="btn btn-danger btn-sm">Удалить</a>
+                                </td>
+
                             </div>
                         </div>
                     </div>
