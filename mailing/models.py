@@ -1,6 +1,6 @@
 from django.db import models
 
-NULLABLE = {'blank': True, 'null': False}
+NULLABLE = {'blank': True, 'null': True}
 
 
 class Client(models.Model):
