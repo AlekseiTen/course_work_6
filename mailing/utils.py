@@ -46,7 +46,6 @@ def check_and_send_mailing():
             mailing.status = 'started'
             mailing.save()
 
-
         elif mailing.status == 'started':
             now = datetime.now(pytz.timezone(TIME_ZONE))  # Используйте ваш часовой пояс
             last_attempt_object = MailingAttempt.objects.filter(mailing=mailing).order_by('-send_time').first()
