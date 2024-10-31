@@ -9,7 +9,7 @@ from mailing.models import Client, Message, Mailing
 
 
 class MainPage(View):
-
+    """Выводит статистику"""
     def get(self, request, *args, **kwargs):
         total_mailings = Mailing.objects.count()
         active_mailings = Mailing.objects.filter(status="started").count()
@@ -42,7 +42,7 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("mailing:client_list")
 
     def form_valid(self, form):
-        # фун-ция по созданию продукта только зарег. пользователям
+        # фун-ция по созданию клиента только авторизаванных пользователей
         client = form.save()
         user = self.request.user
         client.owner = user
@@ -74,10 +74,18 @@ class MessageDetailView(DetailView):
     template_name = "mailing/message_detail.html"
 
 
-class MessageCreateView(CreateView):
+class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy("mailing:message_list")
+
+    def form_valid(self, form):
+        # фун-ция по созданию сообщения только авторизаванных пользователей
+        message = form.save()
+        user = self.request.user
+        message.owner = user
+        message.save()
+        return super().form_valid(form)
 
 
 class MessageUpdateView(UpdateView):
@@ -104,10 +112,18 @@ class MailingDetailView(DetailView):
     template_name = "mailing/mailing_detail.html"
 
 
-class MailingCreateView(CreateView):
+class MailingCreateView(LoginRequiredMixin, CreateView):
     model = Mailing
     form_class = MailingForm
     success_url = reverse_lazy("mailing:mailing_list")
+
+    def form_valid(self, form):
+        # фун-ция по созданию рассылки только авторизаванных пользователей
+        mailing = form.save()
+        user = self.request.user
+        mailing.owner = user
+        mailing.save()
+        return super().form_valid(form)
 
 
 class MailingUpdateView(UpdateView):
