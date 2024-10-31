@@ -30,6 +30,18 @@ class ClientListView(ListView):
     template_name = "mailing/client_list.html"
     context_object_name = "clients"
 
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            if self.request.user.is_superuser:
+                # Если пользователь администратор, показать всех клиентов
+                return Client.objects.all()
+            else:
+                # Иначе показать клиентов, связанных с текущим пользователем
+                return Client.objects.filter(owner=self.request.user)
+        else:
+            # Если пользователь не аутентифицирован, показать всех клиентов
+            return Client.objects.all()
+
 
 class ClientDetailView(DetailView):
     model = Client
@@ -68,6 +80,18 @@ class MessageListView(ListView):
     template_name = "mailing/message_list.html"
     context_object_name = "messages"
 
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            if self.request.user.is_superuser:
+                # Если пользователь администратор, показать всех клиентов
+                return Message.objects.all()
+            else:
+                # Иначе показать клиентов, связанных с текущим пользователем
+                return Message.objects.filter(owner=self.request.user)
+        else:
+            # Если пользователь не аутентифицирован, показать всех клиентов
+            return Message.objects.all()
+
 
 class MessageDetailView(DetailView):
     model = Message
@@ -105,6 +129,18 @@ class MailingListView(ListView):
     model = Mailing
     template_name = "mailing/mailing_list.html"
     context_object_name = "mailings"
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            if self.request.user.is_superuser:
+                # Если пользователь администратор, показать всех клиентов
+                return Mailing.objects.all()
+            else:
+                # Иначе показать клиентов, связанных с текущим пользователем
+                return Mailing.objects.filter(owner=self.request.user)
+        else:
+            # Если пользователь не аутентифицирован, показать всех клиентов
+            return Mailing.objects.all()
 
 
 class MailingDetailView(DetailView):
