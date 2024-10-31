@@ -22,10 +22,10 @@ class ClientForm(StyleFormMixin, ModelForm):
 class MessageForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Message
-        fields = ['subject', 'body']
+        exclude = ("owner",)
 
 
 class MailingForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Mailing
-        fields = ['description', 'periodicity', 'status', 'message', 'clients', 'actual_end_time']
+        exclude = ("owner",)
