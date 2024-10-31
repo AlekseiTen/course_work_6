@@ -38,6 +38,7 @@ def check_and_send_mailing():
     # Получаем все объекты рассылок из базы данных
     mailing_object = Mailing.objects.all()
 
+    # Обрабатывает статус рассылки.
     for mailing in mailing_object:
         if mailing.status == 'completed':
             continue
@@ -45,6 +46,7 @@ def check_and_send_mailing():
             mailing_attempt(mailing)
             mailing.status = 'started'
             mailing.save()
+            print('Рассылка начата.')
 
         elif mailing.status == 'started':
             now = datetime.now(pytz.timezone(TIME_ZONE))  # Используйте ваш часовой пояс
