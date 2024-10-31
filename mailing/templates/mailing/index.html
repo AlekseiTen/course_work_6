@@ -1,0 +1,21 @@
+{% extends 'mailing/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <!-- Статистика -->
+    <div class="container">
+        <div class="statistics">
+            <h2>Статистика</h2>
+            <div class="stat-item">
+                <p><strong>Количество рассылок всего:</strong> {{ total_mailings }}</p>
+            </div>
+            <div class="stat-item">
+                <p><strong>Количество активных рассылок:</strong> {{ active_mailings }}</p>
+            </div>
+            <div class="stat-item">
+                <p><strong>Количество уникальных клиентов для рассылок:</strong> {{ unique_clients_count }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

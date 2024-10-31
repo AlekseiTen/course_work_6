@@ -1,14 +1,27 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from mailing.forms import ClientForm, MessageForm, MailingForm
 from mailing.models import Client, Message, Mailing
 
 
-def index(request):
-    return render(request, 'mailing/base.html')
+class MainPage(View):
+
+    def get(self, request, *args, **kwargs):
+        total_mailings = Mailing.objects.count()
+        active_mailings = Mailing.objects.filter(status="started").count()
+        unique_clients_count = Client.objects.distinct().count()
+
+        context = {
+            "total_mailings": total_mailings,
+            "active_mailings": active_mailings,
+            "unique_clients_count": unique_clients_count,
+        }
+
+        return render(request, "mailing/index.html", context)
 
 
 # CRUD для клиентов

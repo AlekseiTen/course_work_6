@@ -1,13 +1,13 @@
 from django.urls import path
 
-from mailing.views import index, ClientListView, ClientCreateView, ClientUpdateView, ClientDeleteView, ClientDetailView, \
+from mailing.views import ClientListView, ClientCreateView, ClientUpdateView, ClientDeleteView, ClientDetailView, \
     MessageListView, MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView, MailingListView, \
-    MailingDetailView, MailingCreateView, MailingUpdateView, MailingDeleteView
+    MailingDetailView, MailingCreateView, MailingUpdateView, MailingDeleteView, MainPage
 
 app_name = "mailing"
 
 urlpatterns = [
-    path("", index, name="index"),
+    path("", MainPage.as_view(), name="index"),
     path("clients/", ClientListView.as_view(), name="client_list"),
     path("clients/create/", ClientCreateView.as_view(), name="client_create"),
     path("clients/<int:pk>/update/", ClientUpdateView.as_view(), name="client_update"),
