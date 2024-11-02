@@ -87,13 +87,13 @@ class MessageListView(ListView):
     def get_queryset(self):
         if self.request.user.is_authenticated:
             if self.request.user.is_superuser:
-                # Если пользователь администратор, показать всех клиентов
+                # Если пользователь администратор, показать все сообщения
                 return Message.objects.all()
             else:
-                # Иначе показать клиентов, связанных с текущим пользователем
+                # Иначе показать сообщения, связанных с текущим пользователем
                 return Message.objects.filter(owner=self.request.user)
         else:
-            # Если пользователь не аутентифицирован, показать всех клиентов
+            # Если пользователь не аутентифицирован, показать все сообщения
             return Message.objects.all()
 
 
@@ -137,13 +137,13 @@ class MailingListView(ListView):
     def get_queryset(self):
         if self.request.user.is_authenticated:
             if self.request.user.is_superuser:
-                # Если пользователь администратор, показать всех клиентов
+                # Если пользователь администратор, показать все рассылки
                 return Mailing.objects.all()
             else:
-                # Иначе показать клиентов, связанных с текущим пользователем
+                # Иначе показать рассылки, связанные с текущим пользователем
                 return Mailing.objects.filter(owner=self.request.user)
         else:
-            # Если пользователь не аутентифицирован, показать всех клиентов
+            # Если пользователь не аутентифицирован, показать все рассылки
             return Mailing.objects.all()
 
 
