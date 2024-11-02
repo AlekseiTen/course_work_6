@@ -1,8 +1,10 @@
 from datetime import datetime
+
 import pytz
 from django.core.mail import send_mail
+
 from config.settings import EMAIL_HOST_USER, TIME_ZONE
-from mailing.models import Mailing, MailingAttempt
+from mailing.models import MailingAttempt, Mailing
 
 
 def mailing_attempt(mailing):
@@ -36,36 +38,57 @@ def check_and_send_mailing():
     """Основная функция для проверки и отправки рассылок."""
 
     # Получаем все объекты рассылок из базы данных
-    mailing_object = Mailing.objects.all()
+    mailing_objects = Mailing.objects.all()
 
-    # Обрабатывает статус рассылки.
-    for mailing in mailing_object:
+    for mailing in mailing_objects:
         if mailing.status == 'completed':
             continue
-        elif mailing.status == 'created':
-            mailing_attempt(mailing)
-            mailing.status = 'started'
-            mailing.save()
-            print('Рассылка начата.')
 
-        elif mailing.status == 'started':
-            now = datetime.now(pytz.timezone(TIME_ZONE))  # Используйте ваш часовой пояс
-            last_attempt_object = MailingAttempt.objects.filter(mailing=mailing).order_by('-send_time').first()
-            last_send_time = last_attempt_object.send_time.astimezone(
-                pytz.timezone(TIME_ZONE)) if last_attempt_object else None
+        process_mailing_status(mailing)
 
-            if now > mailing.actual_end_time:
-                mailing.status = 'completed'
-                mailing.save()
-                print('рассылка завершена')
-            elif mailing.periodicity == 'monthly' and (now - last_send_time).days >= 30:
-                mailing_attempt(mailing)
-                print('выполнена ежемесячная рассылка')
-            elif mailing.periodicity == 'weekly' and (now - last_send_time).days >= 7:
-                mailing_attempt(mailing)
-                print('выполнена еженедельная рассылка')
-            elif mailing.periodicity == 'daily' and (now - last_send_time).days >= 1:
-                mailing_attempt(mailing)
-                print('выполнена ежедневная рассылка')
-            else:
-                print("ничего не отправлено")
+
+def process_mailing_status(mailing):
+    """Обрабатывает статус рассылки."""
+    if mailing.status == 'created':
+        mailing_attempt(mailing)
+        mailing.status = 'started'
+        mailing.save()
+        print('Рассылка начата.')
+    elif mailing.status == 'started':
+        handle_started_mailing(mailing)
+
+
+def handle_started_mailing(mailing):
+    """Обрабатывает рассылку со статусом 'started'."""
+    now = datetime.now(pytz.timezone(TIME_ZONE))
+    last_attempt_object = MailingAttempt.objects.filter(mailing=mailing).order_by('-send_time').first()
+    last_send_time = last_attempt_object.send_time.astimezone(
+        pytz.timezone(TIME_ZONE)) if last_attempt_object else None
+
+    if now > mailing.actual_end_time:
+        mailing.status = 'completed'
+        mailing.save()
+        print('Рассылка завершена.')
+    else:
+        check_periodicity_and_send(mailing, now, last_send_time)
+
+
+def check_periodicity_and_send(mailing, now, last_send_time):
+    """Проверяет периодичность и отправляет рассылку при необходимости."""
+    if last_send_time is None:
+        print("Невозможно определить время последней отправки.")
+        return
+
+    days_since_last_send = (now - last_send_time).days
+
+    if mailing.periodicity == 'monthly' and days_since_last_send >= 30:
+        mailing_attempt(mailing)
+        print('Выполнена ежемесячная рассылка.')
+    elif mailing.periodicity == 'weekly' and days_since_last_send >= 7:
+        mailing_attempt(mailing)
+        print('Выполнена еженедельная рассылка.')
+    elif mailing.periodicity == 'daily' and days_since_last_send >= 1:
+        mailing_attempt(mailing)
+        print('Выполнена ежедневная рассылка.')
+    else:
+        print("Ничего не отправлено.")

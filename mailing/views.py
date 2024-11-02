@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 from mailing.forms import ClientForm, MessageForm, MailingForm
 from mailing.models import Client, Message, Mailing
+from mailing.services import get_cached_articles
 
 
 class MainPage(View):
@@ -15,10 +16,13 @@ class MainPage(View):
         active_mailings = Mailing.objects.filter(status="started").count()
         unique_clients_count = Client.objects.distinct().count()
 
+        random_articles = get_cached_articles()
+
         context = {
             "total_mailings": total_mailings,
             "active_mailings": active_mailings,
             "unique_clients_count": unique_clients_count,
+            "random_articles": random_articles,
         }
 
         return render(request, "mailing/index.html", context)
