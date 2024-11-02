@@ -69,6 +69,7 @@ class Mailing(models.Model):
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="mailings", **NULLABLE
     )
+    is_active = models.BooleanField(default=True, verbose_name="Активация")
 
     def __str__(self):
         return f"Mailing {self.id} - {self.status}"
@@ -76,6 +77,9 @@ class Mailing(models.Model):
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
+        permissions = [
+            ("can_deactivate_mailing", 'Can deactivate mailing'),
+        ]
 
 
 class MailingAttempt(models.Model):
