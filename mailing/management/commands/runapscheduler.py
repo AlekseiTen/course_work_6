@@ -25,9 +25,9 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             check_and_send_mailing,
-            trigger=IntervalTrigger(seconds=2),
+            trigger=IntervalTrigger(seconds=10),
             id="my_job",
-            seconds=2,
+            seconds=10,
             max_instances=1,
             replace_existing=True,
         )

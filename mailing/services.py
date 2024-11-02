@@ -8,24 +8,35 @@ from blog.models import Blog
 def get_cached_articles():
     """функция для получения случайных статей из блога, и кэширования их"""
 
-    # Если кэш выключен, получаем из бд
-    # Получаем случайные 3 статьи (или меньше, если их меньше 3), иначе возв. пустой список
-    if not CACHE_ENABLED:
-        all_articles = Blog.objects.filter(is_published=True)
-        if all_articles.exists():
-            return random.sample(list(all_articles), min(3, all_articles.count()))
-        else:
-            return []
+    # Проверяем, включен ли кэш.
+    if CACHE_ENABLED:
+        key = 'index_random_articles'
+        # Задаем ключ для кэша, который будет использоваться для хранения случайных статей.
 
-    key = "index_random_articles"  # Устанавливаем ключ для кэширования статей
-    articles = cache.get(key)  # Пытаемся получить статьи из кэша по заданному ключу
+        articles = cache.get(key)
+        # Пытаемся получить статьи из кэша по заданному ключу.
 
-    if articles is not None:
-        return articles
-    all_articles = Blog.objects.filter(is_published=True)
-    if all_articles.exists():
-        articles = random.sample(list(all_articles), min(3, all_articles.count()))
+        if articles is None:
+            # Если статьи не найдены в кэше (articles равен None), выполняем следующий блок кода.
+
+            articles = Blog.objects.filter(is_published=True)
+            # Получаем все опубликованные статьи из модели Blog.
+
+            if articles.exists():
+                # Проверяем, существуют ли полученные статьи.
+
+                articles = random.sample(list(articles), min(3, articles.count()))
+                # Если статьи существуют, выбираем случайные 3 статьи (или меньше, если их меньше 3) из списка статей.
+
+            cache.set(key, articles, 10)
+            # Сохраняем выбранные статьи в кэш с заданным ключом на 10 секунд.
+
     else:
-        articles = []
-    cache.set(key, articles, 60)
+        # Если кэш не включен, выполняем следующий блок кода.
+
+        articles = Blog.objects.filter(is_published=True)
+        if articles.exists():
+            articles = random.sample(list(articles), min(3, articles.count()))
+
     return articles
+    # Возвращаем выбранные статьи (из кэша или из базы данных).
