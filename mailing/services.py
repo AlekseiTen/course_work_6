@@ -28,7 +28,7 @@ def get_cached_articles():
                 articles = random.sample(list(articles), min(3, articles.count()))
                 # Если статьи существуют, выбираем случайные 3 статьи (или меньше, если их меньше 3) из списка статей.
 
-            cache.set(key, articles, 10)
+            cache.set(key, articles, 30)
             # Сохраняем выбранные статьи в кэш с заданным ключом на 10 секунд.
 
     else:
