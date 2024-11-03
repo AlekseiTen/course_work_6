@@ -91,19 +91,18 @@ def reset_password(request):
 
         # Обработка случая, когда пользователь не найден
         except User.DoesNotExist:
-            return render(request, 'users/password_reset.html', {'error': 'Пользователь с таким email не найден.'})
+            return render(request, 'users/templates/password_reset.html', {'error': 'Пользователь с таким email не найден.'})
     # Если метод запроса не POST, а GET мы просто отображаем форму для восстановления пароля.
-    return render(request, 'users/password_reset.html')
+    return render(request, 'users/templates/password_reset.html')
 
 
 class UserUpdateView(UpdateView):
     model = User
-    form_class = UserRegisterForm
+    form_class = UserManagerForm
     success_url = reverse_lazy("users:user_list")
 
     def get_form_class(self):
         user = self.request.user
-
         # Проверка наличия разрешения на деактивацию рассылки
         if user.has_perm("users.can_block_user"):
             return UserManagerForm

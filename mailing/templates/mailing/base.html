@@ -7,8 +7,8 @@
 
     <link rel="shortcut icon" href="/media/mailing/email.jpg"/>
     <title>Рассылки - </title>
-    <link href="../../../static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../../static/css/headers.css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/headers.css' %}" rel="stylesheet">
     <style>
         /* CSS styles for the button */
 
@@ -63,8 +63,7 @@
         <!-- Блок рассылок -->
         {% block content %}
         {% endblock %}
-
-        <script src="../../../static/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     </div>
 
     <!-- Нижний колонтитул -->

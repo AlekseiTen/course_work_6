@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm, BooleanField
+from django.forms import BooleanField, ModelForm
 
 from users.models import User
 
