@@ -174,11 +174,9 @@ class MailingUpdateView(UpdateView):
 
     def get_form_class(self):
         user = self.request.user
-
         # Проверка, является ли пользователь суперпользователем
         if user.is_superuser:
             return MailingForm
-
 
         # Проверка, является ли пользователь владельцем объекта
         if user == self.object.owner:

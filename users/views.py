@@ -2,16 +2,22 @@ import random
 import secrets
 import string
 
-from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.hashers import make_password
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView, UpdateView
 
 from config.settings import EMAIL_HOST_USER
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, UserManagerForm
 from users.models import User
+
+
+class UserListView(ListView):
+    model = User
+    template_name = "users/user_list.html"
+    context_object_name = "users"
 
 
 class UserCreateView(CreateView):
@@ -88,3 +94,17 @@ def reset_password(request):
             return render(request, 'users/password_reset.html', {'error': 'Пользователь с таким email не найден.'})
     # Если метод запроса не POST, а GET мы просто отображаем форму для восстановления пароля.
     return render(request, 'users/password_reset.html')
+
+
+class UserUpdateView(UpdateView):
+    model = User
+    form_class = UserRegisterForm
+    success_url = reverse_lazy("users:user_list")
+
+    def get_form_class(self):
+        user = self.request.user
+
+        # Проверка наличия разрешения на деактивацию рассылки
+        if user.has_perm("users.can_block_user"):
+            return UserManagerForm
+        raise PermissionDenied
