@@ -41,6 +41,7 @@ class Mailing(models.Model):
         ("created", "Создана"),
         ("started", "Активна"),
         ("completed", "Завершена"),
+        ("disabled", "Отключить"),
     ]
 
     PERIODICITY_CHOICES = [
@@ -69,7 +70,6 @@ class Mailing(models.Model):
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="mailings", **NULLABLE
     )
-    is_active = models.BooleanField(default=True, verbose_name="Активация")
 
     def __str__(self):
         return f"Mailing {self.id} - {self.status}"

@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from mailing.forms import ClientForm, MessageForm, MailingForm
+from mailing.forms import ClientForm, MessageForm, MailingForm, MailingManagerForm
 from mailing.models import Client, Message, Mailing
 from mailing.services import get_cached_articles
 
@@ -136,8 +137,8 @@ class MailingListView(ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            if self.request.user.is_superuser:
-                # Если пользователь администратор, показать все рассылки
+            if self.request.user.is_superuser or self.request.user.groups.filter(name='managers').exists():
+                # Если пользователь администратор или менеджер, показать все рассылки
                 return Mailing.objects.all()
             else:
                 # Иначе показать рассылки, связанные с текущим пользователем
@@ -170,6 +171,24 @@ class MailingUpdateView(UpdateView):
     model = Mailing
     form_class = MailingForm
     success_url = reverse_lazy("mailing:mailing_list")
+
+    def get_form_class(self):
+        user = self.request.user
+
+        # Проверка, является ли пользователь суперпользователем
+        if user.is_superuser:
+            return MailingForm
+
+
+        # Проверка, является ли пользователь владельцем объекта
+        if user == self.object.owner:
+            return MailingForm
+
+        # Проверка наличия разрешения на деактивацию рассылки
+        if user.has_perm("mailing.can_deactivate_mailing"):
+            return MailingManagerForm
+
+        raise PermissionDenied
 
 
 class MailingDeleteView(DeleteView):
