@@ -9,6 +9,9 @@
             <li><a href="{% url 'mailing:mailing_list' %}" class="nav-link px-2 custom-link">Рассылки</a></li>
             <li><a href="{% url 'mailing:message_list' %}" class="nav-link px-2 custom-link">Сообщения</a></li>
             <li><a href="{% url 'mailing:client_list' %}" class="nav-link px-2 custom-link">Клиенты</a></li>
+            {% if perms.users.can_block_user %}
+                <li><a href="{% url 'users:user_list' %}" class="nav-link px-2 custom-link">Пользователи</a></li>
+            {% endif %}
         </ul>
 
         <div class="dropdown text-end">
