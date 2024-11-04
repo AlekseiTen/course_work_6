@@ -1,0 +1,32 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+    <h1>Список попыток рассылки: {{ mailing.description }}</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>Время создания</th>
+            <th>Статус</th>
+            <th>Ответ сервера</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for attempt in attempts %}
+            <tr>
+                <td>{{ attempt.id }}</td>
+                <td>{{ attempt.send_time }}</td>
+                <td>{{ attempt.status }}</td>
+                <td>{{ attempt.server_response }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Пока нет попыток рассылок.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-center mt-3">
+        <a href="{% url 'mailing:mailing_detail' mailing.pk %}" class="btn btn-primary">Назад</a>
+    </div>
+{% endblock %}
