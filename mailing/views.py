@@ -1,12 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from mailing.forms import ClientForm, MessageForm, MailingForm, MailingManagerForm
-from mailing.models import Client, Message, Mailing
+from mailing.models import Client, Message, Mailing, MailingAttempt
 from mailing.services import get_cached_articles
 
 
@@ -193,3 +193,20 @@ class MailingDeleteView(DeleteView):
     model = Mailing
     template_name = "mailing/mailing_confirm_delete.html"
     success_url = reverse_lazy("mailing:mailing_list")
+
+
+class MailingAttemptListView(LoginRequiredMixin, ListView):
+    model = MailingAttempt
+    template_name = "mailing/mailing_attempt_list.html"
+    context_object_name = "attempts"
+
+    def get_queryset(self):
+        mailing_id = self.kwargs["mailing_id"]
+        return MailingAttempt.objects.filter(mailing_id=mailing_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mailing_id = self.kwargs["mailing_id"]
+        context["mailing"] = get_object_or_404(Mailing, pk=mailing_id)
+        context["mailing_id"] = mailing_id
+        return context
